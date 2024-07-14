@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0.38
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: lojacorr123
+      MYSQL_DATABASE: lojacorr
+      MYSQL_PASSWORD: lojacorr123
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=lojacorr
+      - DB_USERNAME=root
+      - DB_PASSWORD=lojacorr123
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
