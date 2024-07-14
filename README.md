@@ -14,7 +14,7 @@ Antes de começar, verifique se você possui os seguintes requisitos instalados 
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/lojacorr.git
+   git clone https://github.com/joaovitormp1998/lojacorr
    cd lojacorr
    ```
 2. **Copie o arquivo de exemplo de ambiente:**
