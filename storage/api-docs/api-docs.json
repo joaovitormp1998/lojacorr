@@ -215,6 +215,68 @@
                 ]
             }
         },
+        "/api/calculateMaxHouses": {
+            "post": {
+                "tags": [
+                    "Calculo de Casas"
+                ],
+                "summary": "Calculo de máximo de casas para comprar",
+                "description": "Calculando o maximo numero de casas que se pode comprar a partir de um orçamento x.",
+                "operationId": "5eb55bacc5e9d74471a248ef79b0e8e9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "budget",
+                                    "housePrices"
+                                ],
+                                "properties": {
+                                    "budget": {
+                                        "description": "Orçamento para comprar casas.",
+                                        "type": "number"
+                                    },
+                                    "housePrices": {
+                                        "description": "Lista de preços de casa.",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful calculation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "housesBought": {
+                                            "description": "O numero de casas que se é possivel comprar",
+                                            "type": "integer"
+                                        },
+                                        "totalSpent": {
+                                            "description": "Total gasto com a comprar de casas",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or missing parameters"
+                    }
+                }
+            }
+        },
         "/api/subcategories": {
             "get": {
                 "tags": [
@@ -524,6 +586,10 @@
         {
             "name": "Categorias",
             "description": "Categorias"
+        },
+        {
+            "name": "Calculo de Casas",
+            "description": "Calculo de Casas"
         },
         {
             "name": "Subcategorias",
