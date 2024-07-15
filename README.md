@@ -2,6 +2,8 @@
 
 Este é um projeto Laravel para a aplicação LojaCorr.
 
+Utilizei a versão 9 do Laravel bem como criei components usando vue
+
 ## Pré-requisitos
 
 Antes de começar, verifique se você possui os seguintes requisitos instalados em sua máquina:
