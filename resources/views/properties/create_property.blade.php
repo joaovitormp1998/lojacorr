@@ -87,9 +87,9 @@
                         <div class="form-group mb-3">
                             <label for="status">Status</label>
                             <select id="status" class="form-control @error('status') is-invalid @enderror" name="status" required>
-                                <option value="">Select Status</option>
-                                <option value="Active">Ativo</option>
-                                <option value="Inactive">Inativo</option>
+                                <option value="">Selecionar Status</option>
+                                <option value="Disponivel">Disponivel</option>
+                                <option value="Indisponivel">Indisponivel</option>
                             </select>
 
                             @error('status')
@@ -131,7 +131,7 @@
 
         categorySelect.addEventListener('change', function() {
             const categoryId = this.value;
-            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>'; // Limpa as opções anteriores
+            subcategorySelect.innerHTML = '<option value="">Selecionar Subcategoria</option>'; // Limpa as opções anteriores
 
             if (categoryId) {
                 overlay.style.display = 'block'; // Mostra o overlay escuro

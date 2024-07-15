@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Subcategory;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class PropertyController extends Controller
 {
@@ -35,6 +36,7 @@ class PropertyController extends Controller
             'date' => 'required|date',
             'value' => 'required|numeric',
             'status' => 'required',
+            'responsible' => 'required',
         ]);
 
         // Adiciona o user_id ao validatedData
@@ -62,33 +64,21 @@ class PropertyController extends Controller
         return view('properties.edit', compact('property', 'categories', 'subcategories'));
     }
 
-    // Atualizar uma propriedade existente
-    public function update(Request $request, $id)
+    public function update(Request $request, Property $property)
     {
-        $request->validate([
-            'name' => 'required',
-            'date' => 'required|date',
-            'responsible' => 'required',
-            'value' => 'required|numeric',
-            'status' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id'
+        $property->update([
+            'name' => $request->editName,
+            'value' => $request->editValue,
+            // Update other fields as necessary
         ]);
 
-        $property = Property::findOrFail($id);
-        $property->update($request->all());
-
-        return redirect()->route('properties.index')
-                         ->with('success', 'Property updated successfully.');
+        return redirect()->back()->with('success', 'Property updated successfully!');
     }
 
-    // Excluir uma propriedade existente
-    public function destroy($id)
+    public function destroy(Property $property)
     {
-        $property = Property::findOrFail($id);
         $property->delete();
 
-        return redirect()->route('properties.index')
-                         ->with('success', 'Property deleted successfully.');
+        return redirect()->back()->with('success', 'Property deleted successfully!');
     }
 }

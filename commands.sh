@@ -14,6 +14,9 @@ cd /usr/src/lojacorr
 echo "Executando as migrações..."
 php artisan migrate
 
+echo "Executando seeders..."
+php artisan db:seed --class=DatabaseSeeder
+
 echo "Executando testes..."
 php artisan test
 

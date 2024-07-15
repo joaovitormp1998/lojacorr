@@ -42,4 +42,7 @@ Route::post('/properties', [PropertyController::class, 'store'])
     ->middleware(['auth'])
     ->name('properties.store');
 
-require __DIR__.'/auth.php';
+Route::put('/properties/{property}', [PropertyController::class, 'update'])->name('properties.update');
+Route::delete('/properties/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
+require __DIR__ . '/auth.php';

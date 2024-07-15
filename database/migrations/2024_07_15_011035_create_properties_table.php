@@ -12,6 +12,7 @@ class CreatePropertiesTable extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('responsible');
             $table->date('date');
             $table->decimal('value', 10, 2);
             $table->string('status');

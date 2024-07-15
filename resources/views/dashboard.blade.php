@@ -73,7 +73,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white">
                     <h2 class="card-title m-0">Registros de Propriedade</h2>
-                    <a href="#" class="btn btn-primary">Nova Propriedade</a>
+                    <a href="{{ route('properties.create') }}" class="btn btn-primary">Nova Propriedade</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped">
@@ -93,16 +93,77 @@
                             @foreach ($properties as $property)
                             <tr>
                                 <td>{{ $property->name }}</td>
-                                <td>{{ $property->date }}</td>
+                                <td>{{ \Carbon\Carbon::parse($property->date)->format('d/m/Y') }}</td>
                                 <td>{{ $property->user->name }}</td>
-                                <td>{{ $property->value }}</td>
+                                <td>R$ {{ number_format($property->value, 2, ',', '.') }}</td>
                                 <td>{{ $property->status }}</td>
                                 <td>{{ $property->category->name }}</td>
                                 <td>{{ $property->subcategory->name }}</td>
                                 <td>
-                                    <!-- Aqui você pode adicionar ações como editar e deletar -->
-                                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                    <!-- Botão para abrir o modal de edição -->
+                                    <button type="button" class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $property->id }}">
+                                        Editar
+                                    </button>
+                                    <!-- Modal de Edição -->
+                                    <div class="modal fade" id="editModal{{ $property->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $property->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel{{ $property->id }}">Editar Propriedade</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('properties.update', ['property' => $property->id]) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="mb-3">
+                                                            <label for="editName{{ $property->id }}" class="form-label">Nome</label>
+                                                            <input type="text" class="form-control" id="editName{{ $property->id }}" name="editName" value="{{ $property->name }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="editValue{{ $property->id }}" class="form-label">Valor</label>
+                                                            <input type="text" class="form-control" id="editValue{{ $property->id }}" name="editValue" value="{{ $property->value }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="editResponsible{{ $property->id }}" class="form-label">Responsável</label>
+                                                            <input type="text" class="form-control" id="editResponsible{{ $property->id }}" name="editResponsible" value="{{ $property->user->name }}">
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botão para deletar (exemplo) -->
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $property->id }}">
+                                        Deletar
+                                    </button>
+                                    <!-- Modal de Exclusão -->
+                                    <div class="modal fade" id="deleteModal{{ $property->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $property->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger text-white">
+                                                    <h5 class="modal-title" id="deleteModalLabel{{ $property->id }}">
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                                        Atenção!
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Tem certeza que deseja deletar esta propriedade? Esta ação não poderá ser desfeita.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form action="{{ route('properties.destroy', ['property' => $property->id]) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
