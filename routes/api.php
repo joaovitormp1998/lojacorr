@@ -24,6 +24,8 @@ use App\Http\Controllers\HouseController;
 // Rotas de autenticação
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::get('categories/{category}/subcategories', [CategoryController::class, 'getSubcategories']);
+
 Route::post('calculateMaxHouses', [HouseController::class, 'calculateMaxHouses']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

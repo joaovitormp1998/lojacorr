@@ -8,11 +8,10 @@ use App\Models\Category;
 /**
  * @OA\Info(
  *      version="1.0.0",
- *      title="Documentação da Api de Categorias e Subcategorias",
- *      description="Esta documentação tem como objetivo facilitar os testes da api do desafio
- * Lojacorr",
+ *      title="Documentação da API de Categorias e Subcategorias",
+ *      description="Esta documentação tem como objetivo facilitar os testes da API do desafio Lojacorr",
  * )
-
+ *
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
  *     type="http",
@@ -42,6 +41,7 @@ class CategoryController extends Controller
     {
         return Category::all();
     }
+
     /**
      * @OA\Post(
      *     path="/api/categories",
@@ -54,25 +54,33 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Categoria registrada com Sucesso !",
+     *         description="Categoria registrada com sucesso",
      *         @OA\JsonContent(type="object", properties={
+     *             @OA\Property(property="id", type="integer"),
      *             @OA\Property(property="name", type="string")
      *         })
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
      *     )
      * )
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories'
+            'name' => 'required|unique:categories|max:255',
         ]);
 
         $category = Category::create($request->all());
 
-        // Retorna apenas o nome da categoria criada
-        return response()->json(['name' => $category->name], 201);
+        return response()->json($category, 201);
     }
-
 
     /**
      * @OA\Get(
@@ -93,7 +101,7 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Category not found"
+     *         description="Categoria não encontrada"
      *     )
      * )
      */
@@ -116,11 +124,11 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *         response=204,
-     *         description="Category deleted"
+     *         description="Categoria excluída com sucesso"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Category not found"
+     *         description="Categoria não encontrada"
      *     )
      * )
      */
@@ -129,5 +137,20 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return response(null, 204);
+    }
+
+    public function create()
+    {
+        return view('categories.create_category'); // Ajuste o nome da view conforme necessário
+    }
+    public function getSubcategories($categoryId)
+    {
+        $category = Category::find($categoryId);
+
+        if (!$category) {
+            return response()->json(['error' => 'Categoria não encontrada'], 404);
+        }
+
+        return response()->json($category->subcategories);
     }
 }

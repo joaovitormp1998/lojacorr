@@ -1,24 +1,45 @@
 <?php
+// routes/web.php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\PropertyController;
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+// Rotas para criar categorias
+Route::get('/categories/create', [CategoryController::class, 'create'])
+    ->middleware(['auth'])
+    ->name('categories.create');
+
+Route::post('/categories', [CategoryController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('categories.store');
+
+// Rotas para criar subcategorias
+Route::get('/subcategories/create', [SubcategoryController::class, 'create'])
+    ->middleware(['auth'])
+    ->name('subcategories.create');
+
+Route::post('/subcategories', [SubcategoryController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('subcategories.store');
+
+// Rotas para criar propriedades
+Route::get('/properties/create', [PropertyController::class, 'create'])
+    ->middleware(['auth'])
+    ->name('properties.create');
+
+Route::post('/properties', [PropertyController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('properties.store');
 
 require __DIR__.'/auth.php';

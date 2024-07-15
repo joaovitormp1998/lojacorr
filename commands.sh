@@ -6,13 +6,25 @@ while ! nc -z db 3306; do
   sleep 5
 done
 
-echo "✅ Banco de Dados MySQL iniciado com sucesso ($DB_HOST:$DB_PORT)"
+echo "✅ Banco de Dados MySQL iniciado com sucesso (db:3306)"
 
 echo "Verificando diretórios..."
 cd /usr/src/lojacorr
 
 echo "Executando as migrações..."
 php artisan migrate
+
+echo "Executando testes..."
+php artisan test
+
+echo "Instalando dependências npm..."
+npm install
+
+echo "Executando npm run dev..."
+npm run dev &
+
+echo "Gerando documentações..."
+php artisan l5-swagger:generate &
 
 echo "Iniciando o servidor Laravel..."
 php artisan serve --host=0.0.0.0 --port=8000

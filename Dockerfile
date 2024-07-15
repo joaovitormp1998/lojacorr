@@ -1,27 +1,30 @@
-# Use the official PHP image with PHP 7.4
-FROM php:7.4-fpm
- # Install dependencies
- RUN apt-get update && apt-get install -y \
-     build-essential \
-     libpng-dev \
-     libjpeg-dev \
-     libfreetype6-dev \
-     locales \
-     zip \
-     jpegoptim optipng pngquant gifsicle \
-     vim \
-     unzip \
-     git \
-     curl \
-     libonig-dev \
-     libzip-dev \
-     default-mysql-client \
-     netcat-openbsd
+# Use the official PHP image with PHP 8.0
+FROM php:8.0-fpm
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl \
+    libonig-dev \
+    libzip-dev \
+    default-mysql-client \
+    netcat-openbsd
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql mbstring zip exif pcntl
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -31,6 +34,7 @@ RUN composer self-update
 
 # Set the working directory
 WORKDIR /usr/src/lojacorr
+
 # Copy the application files
 COPY . .
 
@@ -45,5 +49,3 @@ RUN chmod -R +x /usr/src/lojacorr/commands.sh
 
 # Run the commands.sh script
 CMD ["/usr/src/lojacorr/commands.sh"]
-
-

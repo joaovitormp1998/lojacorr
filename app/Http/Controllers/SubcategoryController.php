@@ -137,4 +137,10 @@ class SubcategoryController extends Controller
         $subcategory->delete();
         return response()->json(null, 204);
     }
+    public function create()
+    {
+        $categories = Category::all();
+
+        return view('subcategories.create_subcategory',compact('categories'));
+    }
 }
