@@ -25,7 +25,17 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=lojacorr123
     volumes:
-      - ./app:/var/www/html
+        - ./app:/var/www/html/app
+        - ./bootstrap:/var/www/html/bootstrap
+        - ./config:/var/www/html/config
+        - ./database:/var/www/html/database
+        - ./node_modules:/var/www/html/node_modules
+        - ./public:/var/www/html/public
+        - ./resources:/var/www/html/resources
+        - ./routes:/var/www/html/routes
+        - ./storage:/var/www/html/storage
+        - ./tests:/var/www/html/tests
+        - ./vendor:/var/www/html/vendor
     ports:
       - "8000:8000"
     depends_on:

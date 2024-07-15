@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-    <link rel="icon" sizes="32x32" href="https://cdn-jjojn.nitrocdn.com/fMjbTLhZZSRLuaUAUxmEmKYgrFUQWrjA/assets/images/optimized/rev-e67a0d5/redelojacorr.com.br/wp-content/uploads/2023/04/cropped-Favicon-lojacorr-32x32.jpeg">    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" sizes="32x32" href="https://cdn-jjojn.nitrocdn.com/fMjbTLhZZSRLuaUAUxmEmKYgrFUQWrjA/assets/images/optimized/rev-e67a0d5/redelojacorr.com.br/wp-content/uploads/2023/04/cropped-Favicon-lojacorr-32x32.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -23,7 +23,7 @@
             width: 80%;
             max-width: 1200px;
             background-color: white;
-            color:black;
+            color: black;
             border-radius: 8px;
             overflow: hidden;
             /* Para evitar que o conteúdo vaze */
@@ -33,9 +33,10 @@
             padding: 3rem;
             width: 40%;
             text-align: center;
-            transition: transform 0.5s ease-in-out; /* Smooth transition */
-
+            transition: transform 0.5s ease-in-out;
+            /* Smooth transition */
         }
+
         .form-section.slide-left {
             transform: translateX(-100%);
         }
@@ -43,7 +44,7 @@
         .info-section {
             flex: 1;
             background-color: #EF3B2D;
-            color:white;
+            color: white;
             padding: 3rem;
             display: flex;
             align-items: center;
@@ -110,8 +111,6 @@
             text-decoration: none;
         }
 
-
-
         .slogan {
             font-size: 1.5rem;
             font-weight: bold;
@@ -122,68 +121,79 @@
 </head>
 
 <body>
-    <body>
-        <div class="login-container">
-            <div class="form-section" id="loginSection">
-                <div class="logo-container">
-                    <img src="https://redelojacorr.com.br/wp-content/uploads/2024/05/3-Lojacorr-colorida-horizontal.png" alt="logomarca">
-                    <span class="sub-title">Desafio Full-Stack</span>
+    <div class="login-container">
+        <div class="form-section" id="loginSection">
+            <div class="logo-container">
+                <img src="https://redelojacorr.com.br/wp-content/uploads/2024/05/3-Lojacorr-colorida-horizontal.png" alt="logomarca">
+                <span class="sub-title">Desafio Full-Stack</span>
+            </div>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" required>
                 </div>
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Senha</label>
-                        <input type="password" name="password" id="password" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Logar</button>
-                    </div>
-                    <div class="options">
-                        <a href="#">Esqueci minha senha</a>
-                        <a href="#" id="registerLink">Criar uma nova conta</a>
-                    </div>
-                </form>
-            </div>
-
-            <div class="form-section" id="registerSection" style="display:none;">
-                <div class="logo-container">
-                    <img src="https://redelojacorr.com.br/wp-content/uploads/2024/05/3-Lojacorr-colorida-horizontal.png" alt="logomarca">
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" id="password" required>
                 </div>
-                <form method="POST" action="{{ route('register') }}"> @csrf
-                    <div class="form-group">
-                        <label for="name">Nome</label>
-                        <input type="text" name="name" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Senha</label>
-                        <input type="password" name="password" id="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password_confirmation">Confirmar Senha</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">REGISTRAR</button>
-                    </div>
-                    <div class="options">
-                        <a href="#" id="loginLink">Voltar para Login</a>
-                    </div>
-                </form>
-            </div>
-
-            <div class="info-section">
-                <p class="slogan">Seguro é estar com a gente.</p>
-            </div>
+                <div class="form-group">
+                    <button type="submit">Logar</button>
+                </div>
+                <div class="options">
+                    <a href="#">Esqueci minha senha</a>
+                    <a href="#" id="registerLink">Criar uma nova conta</a>
+                </div>
+            </form>
         </div>
 
+        <div class="form-section" id="registerSection" style="display:none;">
+            <div class="logo-container">
+                <img src="https://redelojacorr.com.br/wp-content/uploads/2024/05/3-Lojacorr-colorida-horizontal.png" alt="logomarca">
+            </div>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="password_confirmation">Confirmar Senha</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">REGISTRAR</button>
+                </div>
+                <div class="options">
+                    <a href="#" id="loginLink">Voltar para Login</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="info-section">
+            <p class="slogan">Seguro é estar com a gente.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.31/dist/vue.global.prod.js"></script>
     <script>
         const loginSection = document.getElementById('loginSection');
         const registerSection = document.getElementById('registerSection');
@@ -209,5 +219,4 @@
         });
     </script>
 </body>
-
 </html>

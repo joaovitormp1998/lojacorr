@@ -1,7 +1,14 @@
 import './bootstrap';
+import { createApp } from 'vue';
+import ExampleComponent from './components/ExampleComponent.vue';
+import App from './components/App.vue';
+import ToastNotification from './components/ToastNotification.vue';
 
-import Alpine from 'alpinejs';
+const app = createApp({
+    components: {
+        'App': App,
+        'ToastNotification':ToastNotification,
+    }
+});
 
-window.Alpine = Alpine;
-
-Alpine.start();
+app.mount('#app');
